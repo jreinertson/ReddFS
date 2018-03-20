@@ -5,6 +5,7 @@ using RedditSharp.Things;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using ReddFS;
 
 public class RedditFsRetrieve
 {
@@ -22,7 +23,7 @@ public class RedditFsRetrieve
 
     public void retrieveFile(String filename)
     {
-        Post post = lookupFile(filename);
+        Post post = RedditFSUtils.lookupFile(filename, sub);
         if (post == null)
         {
             Console.WriteLine("Failed to find file specified.");
@@ -80,21 +81,5 @@ public class RedditFsRetrieve
 
             Console.Write("Retrieved file " + filename + " to dir " + dirpath);
         }
-    }
-
-    private Post lookupFile(String filename)
-    {
-        var pages = sub.New.GetEnumerator(10);
-        while(pages.MoveNext())
-        {
-            Console.Write("checking post with title: " + pages.Current.Title + " ...");
-            if (pages.Current.Title.Equals(filename))
-            {
-                Console.WriteLine(" found, post contains " + pages.Current.CommentCount + " blocks");
-                return pages.Current;
-            }
-        }
-        Console.WriteLine(" not found.");
-        return null;
     }
 }

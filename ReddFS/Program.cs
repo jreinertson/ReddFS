@@ -1,4 +1,5 @@
 ﻿using System;
+using ReddFS;
 using RedditSharp;
 
 namespace RedditFS
@@ -23,20 +24,27 @@ namespace RedditFS
 
             RedditFsStore store = new RedditFsStore(subreddit, maxBlockSize);
             RedditFsRetrieve retrieve = new RedditFsRetrieve(reddit, subreddit, storeDir);
+            Shell shell = new Shell(reddit, subreddit);
 
-            if (args.Length < 2)
+            if (args.Length == 2)
             {
-                Console.WriteLine("Incorrect args length.");
+                if (args[0] == "store")
+                {
+                    Console.WriteLine("Attempting to store file at root: " + args[1]);
+                    store.storeFile(args[1]);
+                }
+                else if (args[0] == "retrieve")
+                {
+                    Console.WriteLine("Attempting to retrive file into current dir: " + args[1]);
+                    retrieve.retrieveFile(args[1]);
+                }
             }
-            else if (args[0] == "store")
-            {
-                Console.WriteLine("Attempting to store file: " + args[1]);
-                store.storeFile(args[1]);
-            }
-            else if (args[0] == "retrieve")
-            {
-                Console.WriteLine("Attempting to retrive file into current dir: " + args[1]);
-                retrieve.retrieveFile(args[1]);
+            else if (args.Length == 1) { 
+                if (args[0] == "shell")
+                {
+                    Console.WriteLine("h e l l o  r e d d i t");
+                    shell.startShell();
+                }
             }
             else
             {
