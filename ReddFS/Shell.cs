@@ -89,13 +89,24 @@ namespace ReddFS
             {
                 if (RedditFSUtils.isDirectory(file))
                 {
-                    Console.WriteLine("file is a dir.");
-                    //TODO: pull the link, load the sub, and set dir to that
+                    var newDir = RedditFSUtils.openDirSymlink(reddit, file);
+                    if (newDir != null)
+                    {
+                        dir = newDir;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failed to open dir.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Operand to cd was not a dir");
+                    Console.WriteLine("Operand to cd was not a dir.");
                 }
+            }
+            else
+            {
+                Console.WriteLine("No such file/dir exists.");
             }
         }
     }
